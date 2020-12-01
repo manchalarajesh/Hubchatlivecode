@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index</title>
+    <link href="http://localhost:65000/StaticFiles/animate.min.css" rel="stylesheet" />
+    <link href="http://localhost:65000/StaticFiles/FrameStyles.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+
+    <!--<input type="number" value="<%=Server.HtmlEncode(Context.Session.GetInt32('AccountId'))%>" id="myHiddenVar1" />
+    <input type="number" value=" <%:Session.GetInt32('AccountId')%>" id="myHiddenVar" />-->
+    <div class="frmContainer">
+        <!--Form-->
+        <div id="submitForm">
+            <div class="formBanner">
+
+                <div class="bnrTitle mt10 center">Welcome to Hub Chat</div>
+                <br><br>
+            </div>
+            <div class="formBase">
+                <div class="formBlock">
+                    <div>
+                        <div class="f16 center mb5">Before Starting Conversation</div>
+                        <div class="f12 center mb10">Please let us know your basic details for verfication</div>
+                        <div class="">
+                            <div class="form-group">
+                                <label class="form-label">Name</label>
+                                <input class="text-box" placeholder="eg. John Doe" />
+                                <div class="errMsg">Please enter your Name</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email ID</label>
+                                <input class="text-box error" placeholder="stephen.lopez@gmail.com" />
+                                <div class="errMsg" style="display: block">Please enter your Email ID</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Mobile Number</label>
+                                <input class="text-box" placeholder="499-990-9189" />
+                                <div class="errMsg">Please enter your Mobile Number</div>
+                            </div>
+                            <div class="center">
+                                <button class="btnSubmit" id="Submit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div><!--End Form-->
+        <!--Chat-->
+        <div id="chatWindow">
+            <div class="formBanner">
+                <img src="http://localhost:65000/StaticFiles/images/user.png" alt="chat-icon" />
+                <span class="bnrTitle">Jeremiah Richards</span>
+
+                <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+                <label for="openSidebarMenu" class="sidebarIconToggle">
+                    <div class="spinner diagonal part-1"></div>
+                    <div class="spinner horizontal"></div>
+                    <div class="spinner diagonal part-2"></div>
+                </label>
+                <div id="sidebarMenu">
+                    <ul class="sidebarMenuInner">
+                        <li><a href="#">New Chat</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Previous Chat</a></li>
+                        <li><a href="#">FAQ's</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="formBase scroll" id="conversation">
+            </div>
+            <div class="typeBlock">
+                <div class="poweredBy">Powered by Telebu</div>
+                <div class="typeArea">
+                    <input type="text" id="message" class="text-box" placeholder="Write a reply…" />
+                    <!--<img class="smiley" src="images/smiley.png" />-->
+                    <img class="attach" src="http://localhost:65000/StaticFiles/images/clip.png" alt="" />
+                    <img id="send" src="http://localhost:65000/StaticFiles/images/send.png" alt="" />
+                </div>
+            </div>
+        </div>
+        <!--End Chat-->
+    </div>
+    <!--<script src="js/jquery-1.11.3.min.js"></script>-->
+    <script src="http://localhost:65000/StaticFiles/js/jquery-1.11.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="http://localhost:65000/StaticFiles/custom/frameContent.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".scroll").mCustomScrollbar({
+                theme: "minimal"
+            });
+        });
+        $(".error").parent().find(".errMsg").show();
+        $("#Submit").click(function () {
+            $("#submitForm").addClass("hide");
+            $("#chatWindow").addClass("animated fadeInRight show");
+        });
+        $("#send").click(function () {
+            var msg = $("#message").val();
+            var text = '<div class="speechItem right"><div class="speechRight">';
+            text = text + '<p>' + msg + '</p></div><div class="time">02:30 PM</div></div>';
+            $("#conversation").html(text);
+            $("#message").val('')
+            var WidgetId = 1;
+            var AccountId = 5;
+            var Data = JSON.stringify({
+                "StatusId": "1"
+            });
+            var url1 = "http://localhost:65000/accounts/" + AccountId + "/widgets/" + WidgetId + "/conversations";
+            $.ajax({
+                type: "POST",
+                url: url1,
+                dataType: "JSON",
+                contentType: "application/json",
+                async: false,
+                data: Data,
+                success: function (res) {
+
+                    var conversationId = res.ConversationId;
+                    alert(conversationId);
+                    BotInteraction(conversationId);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+            });
+        });
+
+        function BotInteraction(conversationId) {
+
+            //var url2 = "http://localhost:65000/accounts/5/widgets/1/conversations/" + conversationId + "/replies/";
+            var url2 = "http://localhost:65000/accounts/5/widgets/1/conversations/12/replies/";
+            var Data2 = JSON.stringify({
+                "MessageTypeId": "1"
+            });
+            $.ajax({
+                type: "POST",
+                url: url2,
+                dataType: "JSON",
+                contentType: "application/json",
+                async: false,
+                data: Data2,
+                success: function (res) {
+                    var t = (res.Message);
+                    var t = res.Message.recipient_id
+
+
+                    console.log(t)
+
+                    // alert(t);
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+            });
+        }
+
+
+    </script>
+</body>
+</html>

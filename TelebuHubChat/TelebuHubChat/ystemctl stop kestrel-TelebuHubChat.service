@@ -1,0 +1,18 @@
+[0;1;32m●[0m kestrel-TelebuHubChat.service - ASP.NET CORE APPLICATION RUNNING ON DEBIAN 9
+   Loaded: loaded (/etc/systemd/system/kestrel-TelebuHubChat.service; enabled; vendor preset: enabled)
+   Active: [0;1;32mactive (running)[0m since Thu 2020-05-28 12:11:07 IST; 1min 10s ago
+ Main PID: 11427 (dotnet)
+    Tasks: 19 (limit: 4915)
+   CGroup: /system.slice/kestrel-TelebuHubChat.service
+           └─11427 /usr/bin/dotnet /var/TelebuHubChat/TelebuHubChat.dll
+
+May 28 12:11:08 debian dotnet-TelebuHub[11427]: warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+May 28 12:11:08 debian dotnet-TelebuHub[11427]:       No XML encryptor configured. Key {4b1640a6-cfe0-464f-bee9-1977dc4f4a91} may be persisted to storage in unencrypted form.
+May 28 12:11:08 debian dotnet-TelebuHub[11427]: info: Microsoft.Hosting.Lifetime[0]
+May 28 12:11:08 debian dotnet-TelebuHub[11427]:       Now listening on: http://localhost:60010
+May 28 12:11:08 debian dotnet-TelebuHub[11427]: info: Microsoft.Hosting.Lifetime[0]
+May 28 12:11:08 debian dotnet-TelebuHub[11427]:       Application started. Press Ctrl+C to shut down.
+May 28 12:11:08 debian dotnet-TelebuHub[11427]: info: Microsoft.Hosting.Lifetime[0]
+May 28 12:11:08 debian dotnet-TelebuHub[11427]:       Hosting environment: Production
+May 28 12:11:08 debian dotnet-TelebuHub[11427]: info: Microsoft.Hosting.Lifetime[0]
+May 28 12:11:08 debian dotnet-TelebuHub[11427]:       Content root path: /var/TelebuHubChat
